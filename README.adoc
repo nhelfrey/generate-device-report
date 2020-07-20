@@ -1,0 +1,11 @@
+# Generate Device Report
+
+## Currently Cisco IOS
+* This will run specific Cisco IOS Comands and then generate a text repoort for each device.
+* The ansible.cfg and hosts files will need to be modified for speccific environments
+* The hosts file has username and ssh key defined for device access.  You will need to change to username/password most likely.
+
+|===
+|NOTE:|
+DO NOT store real username and passwords in any of these files.
+|===  
