@@ -1,0 +1,31 @@
+---
+- name: Device Report - IOS
+  hosts: routers
+  connection: network_cli
+  gather_facts: no
+ 
+  tasks:
+  - name: create timestamp
+    set_fact:
+      timestamp: "{{ lookup('pipe','date +%Y-%m-%d@%H:%M:%S') }}"
+ 
+  - name: gather facts from IOS device
+    ios_facts:
+ 
+  - name: Collecting data from device
+    ios_command:
+      commands:
+        - show interfaces description | include up 
+        - show ip interface brief | exclude unassigned
+        - show cdp neighbors
+        - show lldp neighbors
+        - show ip arp
+        - show ip route
+    register: output
+
+  - name: generate leaf config
+    template: 
+      src=report.j2
+      dest=./{{ inventory_hostname }}.{{ timestamp }}.switch_report.txt
+    delegate_to: localhost
+      
